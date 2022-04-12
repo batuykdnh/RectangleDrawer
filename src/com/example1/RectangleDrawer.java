@@ -47,6 +47,7 @@ public class RectangleDrawer extends JFrame{
         addComponents(getContentPane());
         pack();
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
     }
