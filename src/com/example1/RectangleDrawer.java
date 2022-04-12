@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class RectangleDrawer extends JFrame{
@@ -20,11 +23,13 @@ public class RectangleDrawer extends JFrame{
     JLabel errorMessage;
     JTextField lengthInput;
     JTextField heightInput;
-    JFileChooser jFileChooser=new JFileChooser();
+    JFileChooser jFileChooser=new JFileChooser("Save");
     ArrayList<LengthAndHeight> lengthAndHeights=new ArrayList<LengthAndHeight>();
 
     RectangleDrawer(){
+
         super("RectangleDrawer");
+        createSaveFolder();
         try(ImageInputStream in=new FileImageInputStream(new File("src/icons/icons8-rectangle-48.png"))){
 
             setIconImage(ImageIO.read(in));
@@ -34,6 +39,7 @@ public class RectangleDrawer extends JFrame{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         FileNameExtensionFilter fileNameExtensionFilter=new FileNameExtensionFilter("Data File","dat");
         jFileChooser.setAcceptAllFileFilterUsed(false);
         jFileChooser.addChoosableFileFilter(fileNameExtensionFilter);
@@ -53,6 +59,15 @@ public class RectangleDrawer extends JFrame{
             this.heigth = heigth;
         }
     }
+    void createSaveFolder(){
+        try {
+            Files.createDirectory(Paths.get("save"));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
 
 
     void createInputPanel(){
@@ -275,6 +290,7 @@ public class RectangleDrawer extends JFrame{
             remove(drawPanels);
             revalidate();
             drawPanels=(DrawPanel) in.readObject();
+            setTextMessages(lengthAndHeights.get(drawPanels.pageNumber).length,lengthAndHeights.get(drawPanels.pageNumber).heigth);
             add(drawPanels);
             drawPanels.showPage();
             drawPanels.repaint();
@@ -295,9 +311,22 @@ public class RectangleDrawer extends JFrame{
     }
     void save(){
         jFileChooser.showSaveDialog(this);
+        File file=jFileChooser.getSelectedFile();
+        if(file!=null){
+            String[] strings=file.getName().split("\\.");
+            if(!strings[strings.length-1].equals("dat") || strings.length==1){
+                file=new File(file.getAbsolutePath()+".dat");
+            }
+        }
 
 
-        try(ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(jFileChooser.getSelectedFile()))){
+
+
+
+
+
+
+        try(ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(file))){
             out.writeObject(lengthAndHeights);
             out.writeObject(drawPanels);
         }catch (IOException e) {
@@ -306,6 +335,7 @@ public class RectangleDrawer extends JFrame{
         catch (NullPointerException e){
             e.printStackTrace();
         }
+
 
     }
 
