@@ -5,6 +5,7 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,7 @@ public class RectangleDrawer extends JFrame{
     JLabel errorMessage;
     JTextField lengthInput;
     JTextField heightInput;
-    JFileChooser jFileChooser=new JFileChooser("save");
+    JFileChooser jFileChooser;
     ArrayList<LengthAndHeight> lengthAndHeights=new ArrayList<LengthAndHeight>();
     BufferedImage a;
 
@@ -39,7 +40,7 @@ public class RectangleDrawer extends JFrame{
         }
         setIconImage(a);
         createSaveFolder();
-
+        jFileChooser=new JFileChooser("save");
 
         FileNameExtensionFilter fileNameExtensionFilter=new FileNameExtensionFilter("Data File","dat");
         jFileChooser.setAcceptAllFileFilterUsed(false);
