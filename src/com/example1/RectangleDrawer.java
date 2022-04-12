@@ -8,7 +8,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,20 +27,19 @@ public class RectangleDrawer extends JFrame{
     JTextField heightInput;
     JFileChooser jFileChooser=new JFileChooser("save");
     ArrayList<LengthAndHeight> lengthAndHeights=new ArrayList<LengthAndHeight>();
+    BufferedImage a;
 
     RectangleDrawer(){
 
         super("RectangleDrawer");
-        createSaveFolder();
-        try(ImageInputStream in=new FileImageInputStream(new File("src/icons/icons8-rectangle-48.png"))){
-
-            setIconImage(ImageIO.read(in));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        try {
+            a=ImageIO.read(getClass().getResource("/icons/icons8-rectangle-48.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setIconImage(a);
+        createSaveFolder();
+
 
         FileNameExtensionFilter fileNameExtensionFilter=new FileNameExtensionFilter("Data File","dat");
         jFileChooser.setAcceptAllFileFilterUsed(false);
@@ -67,6 +68,7 @@ public class RectangleDrawer extends JFrame{
             e.printStackTrace();
 
         }
+
     }
 
 
