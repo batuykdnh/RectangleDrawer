@@ -23,7 +23,7 @@ public class RectangleDrawer extends JFrame{
     JLabel errorMessage;
     JTextField lengthInput;
     JTextField heightInput;
-    JFileChooser jFileChooser=new JFileChooser("Save");
+    JFileChooser jFileChooser=new JFileChooser("save");
     ArrayList<LengthAndHeight> lengthAndHeights=new ArrayList<LengthAndHeight>();
 
     RectangleDrawer(){
